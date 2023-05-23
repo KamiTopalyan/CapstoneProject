@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    background: #ffd000;
+    font-family: comic-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: comic-sans;
+}
+
+@font-face {
+    font-family: comic-sans;
+    src: url(comic.ttf);
+}
