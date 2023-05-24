@@ -1,8 +1,11 @@
 # Capstone Project, A MERN stack
 
-## Installation:
+## Installation
 
 * Clone the repository 
 
-* Use npm install on both backend and frontend
+* run "npm run install-commands" with admin previlages
 
+* run "npm install"
+
+* run "npm start"
