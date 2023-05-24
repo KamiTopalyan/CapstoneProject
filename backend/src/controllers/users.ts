@@ -24,7 +24,7 @@ interface SignUpBody {
 export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = async (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
-    const passwordRaw: any = req.body.password;
+    const passwordRaw = req.body.password;
     const key: string = crypto.randomBytes(32).toString("hex")
     const iv: string = crypto.randomBytes(16).toString("hex")
 

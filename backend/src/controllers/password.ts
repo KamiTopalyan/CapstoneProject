@@ -6,7 +6,6 @@ import UserModel from "../models/user";
 import { assertIsDefined } from "../util/assertIsDefined";
 import encryptPassword from "../util/encryptPassword"
 import decryptPassword from "../util/decryptPassword"
-import user from "../models/user";
 
 export const getPasswords: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
@@ -14,13 +13,12 @@ export const getPasswords: RequestHandler = async (req, res, next) => {
     try {
         assertIsDefined(authenticatedUserId);
 
-        const passwords: any = await PasswordModel.find({ userId: authenticatedUserId }).exec();
+        const passwords = await PasswordModel.find({ userId: authenticatedUserId }).exec();
         const user = await UserModel.findById(authenticatedUserId).exec();
-        const key: string  = user!.userKey;
-        const iv: string = user!.userIV;
-        console.log(passwords)
-        console.log(decryptPassword(passwords[0]["password"], key, iv))
-        var decryptedPasswords = passwords.map(function (curObj: any, index: number) {
+        const key: string = user?.userKey || "";
+        const iv: string = user?.userIV || "";
+        console.log(typeof passwords)
+        const decryptedPasswords = passwords.map(function (curObj, index: number) {
             return {
                 _id: curObj._id,
                 userId: curObj.userId,
@@ -87,8 +85,8 @@ export const createPassword: RequestHandler<unknown, unknown, CreatePasswordBody
         }
 
         const user = await UserModel.findById(authenticatedUserId).exec();
-        const key: string  = user!.userKey;
-        const iv: string = user!.userIV;
+        const key: string = user?.userKey || "";
+        const iv: string = user?.userIV || "";
 
         const newpassword = await PasswordModel.create({
             userId: authenticatedUserId,
