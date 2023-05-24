@@ -18,9 +18,21 @@ export const getPasswords: RequestHandler = async (req, res, next) => {
         const user = await UserModel.findById(authenticatedUserId).exec();
         const key: string  = user!.userKey;
         const iv: string = user!.userIV;
-
-        passwords["password" as keyof typeof passwords] = decryptPassword(passwords["password" as keyof typeof passwords], key, iv)
-        res.status(200).json(passwords);
+        console.log(passwords)
+        console.log(decryptPassword(passwords[0]["password"], key, iv))
+        var decryptedPasswords = passwords.map(function (curObj: any, index: number) {
+            return {
+                _id: curObj._id,
+                userId: curObj.userId,
+                password: decryptPassword(passwords[index]["password"], key, iv),
+                website: curObj.website,
+                username: curObj.username,
+                createdAt: curObj.createdAt,
+                updatedAt: curObj.updatedAt,
+                __v: curObj.__v
+            }
+        })
+        res.status(200).json(decryptedPasswords);
     } catch (error) {
         next(error);
     }
@@ -75,11 +87,12 @@ export const createPassword: RequestHandler<unknown, unknown, CreatePasswordBody
         }
 
         const user = await UserModel.findById(authenticatedUserId).exec();
-        const key: string  = user!.userKey
+        const key: string  = user!.userKey;
+        const iv: string = user!.userIV;
 
         const newpassword = await PasswordModel.create({
             userId: authenticatedUserId,
-            password: encryptPassword(password, key),
+            password: encryptPassword(password, key, iv),
             website: website,
             username: username,
         });
