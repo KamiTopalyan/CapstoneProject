@@ -9,3 +9,7 @@
 * run "npm install"
 
 * run "npm start"
+
+## Database
+
+Replace the details of your .env file with your own or host MongoDB locally
