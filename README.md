@@ -1,6 +1,6 @@
 # Capstone Project, A MERN stack
 
-# # Installation:
+## Installation:
 
 * Clone the repository 
 
