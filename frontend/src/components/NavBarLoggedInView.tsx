@@ -18,7 +18,6 @@ const NavBarLoggedInView = ({ user, onLogoutSuccessful }: NavBarLoggedInViewProp
             alert(error);
         }
     }
-
     return (
         <>
             <Navbar.Text className="me-2">

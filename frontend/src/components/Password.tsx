@@ -25,7 +25,6 @@ const Password = ({ passwordModel, onPasswordClicked, onDeletePasswordClicked, c
         createdAt,
         updatedAt
     } = passwordModel;
-
     let createdUpdatedText: string;
     if (updatedAt > createdAt) {
         createdUpdatedText = "Updated: " + formatDate(updatedAt);

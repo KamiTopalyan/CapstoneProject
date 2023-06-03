@@ -13,8 +13,5 @@
         "start": "concurrently \"npm run start-frontend\" \"npm run start-server\""
     },
     "author": "Kami Topalyan",
-    "license": "GNU",
-    "dependencies": {
-        "concurrently": "^8.0.1"
-    }
+    "license": "GNU"
 }

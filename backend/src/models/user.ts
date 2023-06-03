@@ -5,7 +5,8 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true, select: false },
     password: { type: String, required: true, select: false },
     userKey: {type: String, required: true, unique: true},
-    userIV: {type: String, required: true, unique: true}
+    userIV: {type: String, required: true, unique: true},
+
 });
 
 type User = InferSchemaType<typeof userSchema>;

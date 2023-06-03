@@ -153,6 +153,8 @@ export const updatePassword: RequestHandler<UpdatePasswordParams, unknown, Updat
 
         const updatedPassword = await password.save();
 
+        console.log(updatedPassword)
+
         res.status(200).json(updatedPassword);
     } catch (error) {
         next(error);

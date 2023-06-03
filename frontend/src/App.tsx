@@ -9,7 +9,7 @@ import { User } from './models/user';
 import * as PasswordsApi from "./network/passwords_api";
 import PasswordsPage from './pages/PasswordsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import PrivacyPage from './pages/PrivacyPage';
+import SettingsPage from './pages/SettingsPage';
 import styles from "./styles/App.module.css";
 
 function App() {
@@ -18,7 +18,8 @@ function App() {
 
 	const [showSignUpModal, setShowSignUpModal] = useState(false);
 	const [showLoginModal, setShowLoginModal] = useState(false);
-
+	const [showSettingsPage, setShowSettingsPage] = useState(false);
+	
 	useEffect(() => {
 		async function fetchLoggedInUser() {
 			try {
@@ -47,8 +48,8 @@ function App() {
 							element={<PasswordsPage loggedInUser={loggedInUser} />}
 						/>
 						<Route
-							path='/privacy'
-							element={<PrivacyPage />}
+							path='/settings'
+							element={<SettingsPage />}
 						/>
 						<Route
 							path='/*'

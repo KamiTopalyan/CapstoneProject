@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import UserModel from "../models/user";
+import StyleModel from "../models/style";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
@@ -54,6 +55,10 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             userKey: key, 
             userIV: iv,
         });
+        
+        StyleModel.create({
+            userId: newUser["_id"]
+        })
 
         req.session.userId = newUser._id;
 
@@ -105,3 +110,40 @@ export const logout: RequestHandler = (req, res, next) => {
         }
     });
 };
+
+interface StyleBody {
+    username?: string,
+    password?: string,
+    color?: string,
+}
+
+export const getStyle: RequestHandler<unknown, unknown, StyleBody, unknown> = async (req, res, next) => {
+    const color = req.body.color;
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user = await UserModel.findOne({ username: username }).select("+password +email").exec();
+
+
+}
+
+interface StyleBodyUpdate {
+    username?: string,
+    password?: string,
+    oldColor?: string,
+    newColor: string,
+}
+
+export const updateStyle: RequestHandler<unknown, unknown, StyleBodyUpdate, unknown> = async (req, res, next) => {
+    const newColor = req.body.newColor;
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user = await UserModel.findOne({ username: username }).select("+password +email").exec();
+    if(/^#[0-9A-F]{6}$/i.test(newColor)) {
+        user?.updateOne({}, {backgroundColor: newColor})
+    }
+    else {
+        throw createHttpError(400, "Invalid Hex Code");
+    }
+}
