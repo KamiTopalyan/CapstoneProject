@@ -1,15 +1,22 @@
-import style from "../styles/settings.module.css"
 import * as StyleApi from "../network/style_api";
-import { Style as StyleModel } from "../models/style";
-import { useEffect, useState } from 'react';
 import SettingsPageLoggedInView from "../components/SettingsPageLoggedInView";
+import SettingsPageLoggedOutView from "../components/SettingsPageLoggedOutView";
+import { useEffect, useState } from 'react';
+import { Style as StyleModel } from '../models/style';
+import { Container } from "react-bootstrap";
+import { User } from "../models/user";
 
+interface PasswordsPageProps {
+    loggedInUser: User | null,
+}
 
-const SettingsPage = () => {
-
+const SettingsPage = ({ loggedInUser }: PasswordsPageProps) => {
     return ( 
-        <div>
-<SettingsPageLoggedInView/>
+            <div>
+                {loggedInUser
+                    ? <SettingsPageLoggedInView />
+                    : <SettingsPageLoggedOutView />
+                }
         </div>
      );
 }

@@ -7,6 +7,8 @@ import styles from "../styles/PasswordsPage.module.css";
 import styleUtils from "../styles/utils.module.css";
 import AddEditPasswordDialog from "./AddEditPasswordDialog";
 import Password from './Password';
+import { Style as StyleModel } from '../models/style';
+import * as StyleApi from "../network/style_api";
 
 const PasswordsPageLoggedInView = () => {
 
@@ -34,6 +36,25 @@ const PasswordsPageLoggedInView = () => {
         Passwords();
     }, []);
 
+    const [style, setStyle] = useState<StyleModel>();
+
+    useEffect(() => {
+        async function Style() {
+            try {
+                const style = await StyleApi.fetchStyle();
+                if(document.querySelector("." + styles.password)) {
+                    document.querySelectorAll("." + styles.password).forEach((passwordBox, index) => {
+                        (passwordBox as HTMLElement).style.backgroundColor = style.passwordColor
+                    })
+                setStyle(style);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        Style();  
+    }, []);
+
     async function deletePassword(password: PasswordModel) {
         try {
             await PasswordsApi.deletePassword(password._id);
@@ -47,7 +68,7 @@ const PasswordsPageLoggedInView = () => {
     const passwordsGrid =
         <Row className={`g-4 ${styles.passwordsGrid}`}>
             {passwords.map(password => (
-                <div key={password._id}>
+                <div key={password._id} id={password._id}>
                     <Password
                         passwordModel={password}
                         className={styles.password}

@@ -11,17 +11,13 @@ import Setting from './Setting';
 
 const SettingsPageLoggedInView = () => {
 
-    const [style, setStyle] = useState<StyleModel>({
-        _id: "0",
-        backgroundColor: "#fff",
-        navbarColor: "#fff",
-        passwordColor: "#fff",
-    });
+    const [style, setStyle] = useState<StyleModel>();
 
     useEffect(() => {
         async function Style() {
             try {
                 const styles = await StyleApi.fetchStyle();
+                document.body.style.backgroundColor = styles.backgroundColor
                 setStyle(styles);
             } catch (error) {
                 console.error(error);
@@ -32,46 +28,54 @@ const SettingsPageLoggedInView = () => {
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<StyleInput>({
         defaultValues: {
-            backgroundColor: style.backgroundColor || "",
-            navbarColor: style.navbarColor || "",
-            passwordColor: style.passwordColor || "",
-            
+            backgroundColor: style?.backgroundColor,
+            navbarColor: style?.navbarColor,
+            passwordColor: style?.passwordColor,
         }
+
     });
-    async function onSubmit() {
+    async function onSubmit(input: StyleInput) {
         try {
             let styleResponse: StyleInput;
-            styleResponse = await StyleApi.updateStyle(style._id, style);
-            console.log(styleResponse)
+            if (style) {
+                styleResponse = await StyleApi.updateStyle(style._id, input);
+                window.location.reload();
+            }
+            else {
+                alert("Something Went Wrong")
+            }
         } catch (error) {
             console.error(error);
             alert(error);
         }
     }
-
-    const styleGrid =
-
-                <div key={style._id}>
-                <Form id="StyleForm" onSubmit={handleSubmit(onSubmit)} >
-                    <Setting
-                        register={register} 
-                        styleModel={style}
-                        className={styles.style}
-                    />
-                </Form>
-                </div>
-    return (
-        <div>
-        {styleGrid}
-        <Button
-            type="submit"
-            form="StyleForm"
-            disabled={isSubmitting}
-        >
-            Save
-        </Button>
-        </div>
-    )
+    if(style) {
+        return (
+            <div>
+                <div key={style?._id}>
+                    <Form id="StyleForm" onSubmit={handleSubmit(onSubmit)} >
+                        <Setting
+                            register={register} 
+                            styleModel={style}
+                            className={styles.style}
+                        />
+                    </Form>
+            </div>
+            <Button
+                type="submit"
+                form="StyleForm"
+                disabled={isSubmitting}
+            >
+                Save
+            </Button>
+            </div>
+        )
+    }
+    else{
+        return (
+            <div>Login to access settings</div>
+        )
+    }
 }
 
 export default SettingsPageLoggedInView;

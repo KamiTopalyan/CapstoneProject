@@ -13,6 +13,7 @@ const NavBarLoggedInView = ({ user, onLogoutSuccessful }: NavBarLoggedInViewProp
         try {
             await PasswordApi.logout();
             onLogoutSuccessful();
+            window.location.reload();
         } catch (error) {
             console.error(error);
             alert(error);

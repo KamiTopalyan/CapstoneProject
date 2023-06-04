@@ -31,7 +31,6 @@ export interface StyleInput {
 
 
 export async function updateStyle(styleId: string, style: StyleInput): Promise<Style> {
-    console.log(style)
     const response = await fetchData("/api/styles/" + styleId,
         {
             method: "PATCH",

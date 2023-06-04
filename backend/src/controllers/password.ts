@@ -17,7 +17,7 @@ export const getPasswords: RequestHandler = async (req, res, next) => {
         const user = await UserModel.findById(authenticatedUserId).exec();
         const key: string = user?.userKey || "";
         const iv: string = user?.userIV || "";
-        console.log(typeof passwords)
+
         const decryptedPasswords = passwords.map(function (curObj, index: number) {
             return {
                 _id: curObj._id,

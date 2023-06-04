@@ -11,6 +11,9 @@ import PasswordsPage from './pages/PasswordsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SettingsPage from './pages/SettingsPage';
 import styles from "./styles/App.module.css";
+import { Style as StyleModel } from './models/style';
+import * as StyleApi from "./network/style_api";
+
 
 function App() {
 
@@ -32,6 +35,7 @@ function App() {
 		fetchLoggedInUser();
 	}, []);
 
+
 	return (
 		<BrowserRouter>
 			<div>
@@ -49,7 +53,7 @@ function App() {
 						/>
 						<Route
 							path='/settings'
-							element={<SettingsPage />}
+							element={<SettingsPage loggedInUser={loggedInUser} />}
 						/>
 						<Route
 							path='/*'

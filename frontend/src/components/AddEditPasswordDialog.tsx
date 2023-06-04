@@ -5,7 +5,7 @@ import { PasswordInput } from "../network/passwords_api";
 import * as PasswordsApi from "../network/passwords_api";
 import TextInputField from "./form/TextInputField";
 import PasswordInputField from "./form/PasswordInputField";
-import { generate } from "../utils/generatePassword"
+
 
 
 interface AddEditPasswordDialogProps {
