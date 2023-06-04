@@ -147,13 +147,15 @@ export const updatePassword: RequestHandler<UpdatePasswordParams, unknown, Updat
             throw createHttpError(401, "You cannot access this password");
         }
 
-        password.password = newPassword;
+        const user = await UserModel.findById(authenticatedUserId).exec();
+        const key: string = user?.userKey || "";
+        const iv: string = user?.userIV || "";
+
+        password.password = encryptPassword(newPassword, key, iv);
         password.website = newWebsite;
         password.username = newUsername;
 
         const updatedPassword = await password.save();
-
-        console.log(updatedPassword)
 
         res.status(200).json(updatedPassword);
     } catch (error) {
