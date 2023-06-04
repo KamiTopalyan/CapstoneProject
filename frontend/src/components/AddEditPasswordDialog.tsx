@@ -1,5 +1,5 @@
 import { Button, Form, Modal } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { UseFormClearErrors, UseFormTrigger, useForm } from "react-hook-form";
 import { Password } from "../models/password";
 import { PasswordInput } from "../network/passwords_api";
 import * as PasswordsApi from "../network/passwords_api";
@@ -16,7 +16,7 @@ interface AddEditPasswordDialogProps {
 
 const AddEditPasswordDialog = ({ passwordToEdit, onDismiss, onPasswordSaved }: AddEditPasswordDialogProps) => {
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<PasswordInput>({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, clearErrors} = useForm<PasswordInput>({
         defaultValues: {
             password: passwordToEdit?.password || "",
             website: passwordToEdit?.website || "",
@@ -34,6 +34,7 @@ const AddEditPasswordDialog = ({ passwordToEdit, onDismiss, onPasswordSaved }: A
                 passwordResponse = await PasswordsApi.createPassword(input);
             }
             onPasswordSaved(passwordResponse);
+            window.location.reload()
         } catch (error) {
             console.error(error);
             alert(error);
@@ -78,6 +79,7 @@ const AddEditPasswordDialog = ({ passwordToEdit, onDismiss, onPasswordSaved }: A
                         placeholder="Password"
                         register={register}
                         registerOptions={{ required: "Required" }}
+                        clearError={clearErrors as UseFormClearErrors<PasswordInput>}
                         error={errors.password}
                         autoComplete="off"
                     />

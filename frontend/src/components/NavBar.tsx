@@ -39,9 +39,11 @@ const NavBar = ({ loggedInUser, onSignUpClicked, onLoginClicked, onLogoutSuccess
                     <Navbar.Brand as={Link} to="/">
                         Password Manager
                     </Navbar.Brand>
-                    <Navbar.Brand as={Link} to="/settings">
-                        Settings
-                    </Navbar.Brand>
+                    <Nav className="me-auto">
+                        <Nav.Link href="/settings">
+                            Settings
+                        </Nav.Link>
+                    </Nav>
                     <Navbar.Toggle aria-controls="main-navbar" />
                     <Navbar.Collapse id="main-navbar">
                         <Nav className="ms-auto">

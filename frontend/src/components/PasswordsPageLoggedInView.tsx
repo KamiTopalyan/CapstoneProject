@@ -54,7 +54,10 @@ const PasswordsPageLoggedInView = () => {
         }
         Style();  
     }, []);
-
+    
+    function updateNewPassword() {
+        
+    }
     async function deletePassword(password: PasswordModel) {
         try {
             await PasswordsApi.deletePassword(password._id);

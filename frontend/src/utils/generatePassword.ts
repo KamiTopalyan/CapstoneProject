@@ -5,7 +5,6 @@ export function generate(): string {
     for (let i = 0; i < 20; i++) {
         password += characters[Math.floor(Math.random() * characters.length)];
       }
-    console.log(password)
     return password;
 
 }
